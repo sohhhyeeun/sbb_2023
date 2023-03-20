@@ -25,6 +25,6 @@ public class Answer {
 
     private LocalDateTime createDate;
 
-    @ManyToOne
+    @ManyToOne //Q 하나에 A 여러개 가능
     private Question question;
 }

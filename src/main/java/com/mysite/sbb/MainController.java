@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class MainController {
 
     @GetMapping("/sbb")
-    @ResponseBody
+    @ResponseBody //응답 그대로 고객에게 보여주겠다.
     public String index() {
         return "안녕하세요 sbb에 오신 것을 환영합니다.";
     }

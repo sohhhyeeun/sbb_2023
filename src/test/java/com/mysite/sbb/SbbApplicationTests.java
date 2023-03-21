@@ -1,5 +1,6 @@
 package com.mysite.sbb;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,8 +17,17 @@ class SbbApplicationTests {
 	@Autowired //자동 객체 생성(new)
 	private QuestionRepository questionRepository;
 
-	@Test
-	void testJpa001() {
+	@Autowired
+	private AnswerRepository answerRepository;
+
+	@BeforeEach //각 Test case가 실행되기 전에 실행된다.
+	void BeforeEach() {
+		//모든 데이터 삭제
+		questionRepository.deleteAll();
+
+		//다음 Insert일 때 Id가 1번이 될 수 있도록
+		questionRepository.clearAutoIncrement();
+
 		Question q1 = new Question();
 		q1.setSubject("sbb가 무엇인가요?");
 		q1.setContent("sbb에 대해서 알고 싶습니다.");
@@ -29,6 +39,21 @@ class SbbApplicationTests {
 		q2.setContent("id는 자동으로 생성되나요?");
 		q2.setCreateDate(LocalDateTime.now());
 		questionRepository.save(q2);  // 두번째 질문 저장
+
+		//모든 데이터 삭제
+		answerRepository.deleteAll();
+
+		//다음 Insert일 때 Id가 1번이 될 수 있도록
+		answerRepository.clearAutoIncrement();
+	}
+
+	@Test
+	void testJpa001() {
+		Question q = new Question();
+		q.setSubject("백엔드 개발자가 되려면 무슨 언어를 공부해야 되나요?");
+		q.setContent("주요 언어에 대해 알고 싶습니다.");
+		q.setCreateDate(LocalDateTime.now());
+		questionRepository.save(q);  // 첫번째 질문 저장
 	}
 
 	@Test
@@ -80,5 +105,16 @@ class SbbApplicationTests {
 		Question q = oq.get();
 		questionRepository.delete(q);
 		assertEquals(1, questionRepository.count());
+	}
+
+	@Test
+	void testJpa008() {
+		Question q = questionRepository.findById(2).orElse(null);
+
+		Answer a = new Answer();
+		a.setContent("네 자동으로 생성됩니다.");
+		a.setQuestion(q);  // 어떤 질문의 답변인지 알기위해서 Question 객체가 필요하다.
+		a.setCreateDate(LocalDateTime.now());
+		answerRepository.save(a);
 	}
 }

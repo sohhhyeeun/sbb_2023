@@ -1,5 +1,6 @@
 package com.mysite.sbb;
 
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,12 @@ class SbbApplicationTests {
 	@BeforeEach //각 Test case가 실행되기 전에 실행된다.
 	void BeforeEach() {
 		//모든 데이터 삭제
+		answerRepository.deleteAll();
+
+		//다음 Insert일 때 Id가 1번이 될 수 있도록
+		answerRepository.clearAutoIncrement();
+
+		//모든 데이터 삭제
 		questionRepository.deleteAll();
 
 		//다음 Insert일 때 Id가 1번이 될 수 있도록
@@ -40,11 +47,12 @@ class SbbApplicationTests {
 		q2.setCreateDate(LocalDateTime.now());
 		questionRepository.save(q2);  // 두번째 질문 저장
 
-		//모든 데이터 삭제
-		answerRepository.deleteAll();
-
-		//다음 Insert일 때 Id가 1번이 될 수 있도록
-		answerRepository.clearAutoIncrement();
+		Answer a1 = new Answer();
+		a1.setContent("네 자동으로 생성됩니다.");
+		//양방향관계
+		q2.addAnswer(a1);
+		a1.setCreateDate(LocalDateTime.now());
+		answerRepository.save(a1);
 	}
 
 	@Test
@@ -116,5 +124,39 @@ class SbbApplicationTests {
 		a.setQuestion(q);  // 어떤 질문의 답변인지 알기위해서 Question 객체가 필요하다.
 		a.setCreateDate(LocalDateTime.now());
 		answerRepository.save(a);
+	}
+
+	@Test
+	void testJpa009() {
+		Optional<Answer> oa = answerRepository.findById(1);
+		assertTrue(oa.isPresent());
+		Answer a = oa.get();
+		assertEquals(2, a.getQuestion().getId());
+	}
+
+	@Transactional
+	@Test
+	void testJpa10() {
+		Optional<Question> oq = this.questionRepository.findById(2);
+		assertTrue(oq.isPresent());
+		Question q = oq.get();
+
+		List<Answer> answerList = q.getAnswerList();
+
+		assertEquals(1, answerList.size());
+		assertEquals("네 자동으로 생성됩니다.", answerList.get(0).getContent());
+	}
+
+	@Transactional
+	@Test
+	void testJpa11() {
+		Optional<Question> oq = this.questionRepository.findById(2);
+		assertTrue(oq.isPresent());
+		Question q = oq.get();
+
+		List<Answer> answerList = q.getAnswerList();
+
+		assertEquals(1, answerList.size());
+		assertEquals("네 자동으로 생성됩니다.", answerList.get(0).getContent());
 	}
 }

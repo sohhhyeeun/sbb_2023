@@ -7,8 +7,10 @@
     </tr>
     </thead>
     <tbody>
+    <!-- list 내 데이터 갯수만큼 반복 -->
     <tr th:each="question : ${questionList}">
         <td>
+            <!-- 주소 첨부: @{|  |} -->
             <a th:href="@{|/question/detail/${question.id}|}" th:text="${question.subject}"></a>
         </td>
         <td th:text="${question.createDate}"></td>

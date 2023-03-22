@@ -12,10 +12,12 @@ import jakarta.persistence.Id;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @Entity
+@ToString //-> 오류발생 -> question으로 인해 순환 참조가 일어난다.
 public class Answer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,5 +29,6 @@ public class Answer {
     private LocalDateTime createDate;
 
     @ManyToOne //Q 하나에 A 여러개 가능
+    @ToString.Exclude
     private Question question;
 }

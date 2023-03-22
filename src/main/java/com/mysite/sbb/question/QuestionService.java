@@ -13,13 +13,14 @@ public class QuestionService {
     private final QuestionRepository questionRepository;
 
     public List<Question> getList() {
-        return this.questionRepository.findAll();
+        return questionRepository.findAll();
     }
 
     public Question getQuestion(Integer id) {
-        Optional<Question> question = this.questionRepository.findById(id);
-        if (question.isPresent()) {
-            return question.get();
+        Optional<Question> oq = questionRepository.findById(id);
+
+        if (oq.isPresent()) {
+            return oq.get();
         } else {
             throw new DataNotFoundException("question not found");
         }

@@ -1,3 +1,5 @@
+<link rel="stylesheet" type="text/css" th:href="@{/style.css}">
+
 <h1 th:text="${question.subject}"></h1>
 <div th:text="${question.content}"></div>
 
@@ -8,6 +10,10 @@
     </ul>
 </div>
 
+<!--
+Get: 내용이 주소창에 함께 출력
+Post: 내용이 따로 압축되어 전송
+-->
 <form th:action="@{|/answer/create/${question.id}|}" method="post">
     <textarea name="content" id="content" rows="15"></textarea>
     <input type="submit" value="답변등록">

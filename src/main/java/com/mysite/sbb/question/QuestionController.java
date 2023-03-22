@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
-@RequestMapping("/question")
+@RequestMapping("/question") //공통 접두어는 RequestMapping으로 
 @RequiredArgsConstructor
 @Controller
 public class QuestionController {
@@ -37,7 +37,7 @@ public class QuestionController {
 
     @GetMapping(value = "/detail/{id}")
     public String detail(Model model, @PathVariable("id") Integer id) {
-        Question question = this.questionService.getQuestion(id);
+        Question question = questionService.getQuestion(id);
         model.addAttribute("question", question);
         return "question_detail";
     }

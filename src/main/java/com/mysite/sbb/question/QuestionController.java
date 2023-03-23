@@ -1,5 +1,6 @@
 package com.mysite.sbb.question;
 
+import com.mysite.sbb.answer.AnswerForm;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -35,7 +36,7 @@ public class QuestionController {
     }
 
     @GetMapping(value = "/detail/{id}")
-    public String detail(Model model, @PathVariable("id") Integer id) {
+    public String detail(Model model, @PathVariable("id") Integer id, AnswerForm answerForm) {
         Question question = questionService.getQuestion(id);
         model.addAttribute("question", question);
         return "question_detail";
@@ -43,12 +44,15 @@ public class QuestionController {
 
     @GetMapping("/create")
     public String questionCreate(QuestionForm questionForm) {
+        //get은 데이터가 없는 상태에서 실행되기 때문에 @Valid 사용 X
+        //QuestionForm questionForm 써주는 이유, questionForm.html에서 questionForm 변수가 없으면 실행이 되지 않기 때문
         return "question_form";
     }
 
     @PostMapping("/create")
     public String questionCreate(@Valid QuestionForm questionForm, BindingResult bindingResult) {
         //@Valid QuestionForm questionForm: questionForm을 바인딩 할 때 유효성 체크
+        //(암기)Model model 정의하지 않아도 바로 html 접근 가능
         if (bindingResult.hasErrors()) {
             return "question_form";    //폼을 보여준다.
         }

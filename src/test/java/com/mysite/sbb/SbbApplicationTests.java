@@ -4,8 +4,10 @@ import com.mysite.sbb.answer.Answer;
 import com.mysite.sbb.answer.AnswerRepository;
 import com.mysite.sbb.question.Question;
 import com.mysite.sbb.question.QuestionRepository;
+import com.mysite.sbb.question.QuestionService;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,6 +27,9 @@ class SbbApplicationTests {
 
 	@Autowired
 	private AnswerRepository answerRepository;
+
+	@Autowired
+	private QuestionService questionService;
 
 	@BeforeEach //각 Test case가 실행되기 전에 실행된다.
 	void BeforeEach() {
@@ -142,7 +147,7 @@ class SbbApplicationTests {
 	@Transactional
 	@Rollback(false)
 	@Test
-	void testJpa10() {
+	void testJpa010() {
 		Optional<Question> oq = questionRepository.findById(2);
 		assertTrue(oq.isPresent());
 		Question q = oq.get();
@@ -151,5 +156,15 @@ class SbbApplicationTests {
 
 		assertEquals(1, answerList.size());
 		assertEquals("네 자동으로 생성됩니다.", answerList.get(0).getContent());
+	}
+
+	@Test
+	@DisplayName("대량 테스트 데이터 만들기")
+	void testJpa011() {
+		for (int i = 3; i <= 300; i++) {
+			String subject = String.format("테스트 데이터입니다:[%03d]", i);
+			String content = "내용무";
+			this.questionService.create(subject, content);
+		}
 	}
 }

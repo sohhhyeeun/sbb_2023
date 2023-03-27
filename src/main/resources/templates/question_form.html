@@ -5,6 +5,7 @@
         <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
             <div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
         </div>
+        <div th:replace="~{form_errors :: formErrorsFragment}"></div>
         <div class="mb-3">
             <!-- label for, input id -> 제목을 눌렀을 때 글 쓸 수 있도록 -->
             <label for="subject" class="form-label">제목</label>
@@ -14,7 +15,7 @@
             <label for="content" class="form-label">내용</label>
             <textarea autocomplete="off" required maxlength="20000" placeholder="내용" th:field="*{content}" class="form-control" rows="10"></textarea>
         </div>
-        <input type="submit" value="저장하기" class="btn btn-primary my-2">
+        <input type="submit" value="저장하기" class="btn btn-primary my-2" style="background-color: deeppink; border: none;">
     </form>
 </div>
 </html>

@@ -32,13 +32,11 @@
         <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
             <div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
         </div>
+        <div th:replace="~{form_errors :: formErrorsFragment}"></div>
         <textarea autocomplete="off" required maxlength="20000" placeholder="답변" th:field="*{content}" rows="10" class="form-control"></textarea>
-        <input type="submit" value="답변등록" class="btn btn-primary my-2">
+        <input type="submit" value="답변등록" class="btn btn-primary my-2" style="background-color: deeppink; border: none;">
     </form>
 </div>
 </html>
 
-<!--
-Get: 내용이 주소창에 함께 출력
-Post: 내용이 따로 압축되어 전송
--->
+<!-- Get: 내용이 주소창에 함께 출력, Post: 내용이 따로 압축되어 전송 -->

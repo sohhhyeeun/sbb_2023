@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder; //자주 사용할 것이기 때문에 bean으로 등록
 
     public SiteUser create(String username, String email, String password) {
         SiteUser user = new SiteUser();

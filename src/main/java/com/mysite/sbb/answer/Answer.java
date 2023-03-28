@@ -3,6 +3,7 @@ package com.mysite.sbb.answer;
 import java.time.LocalDateTime;
 
 import com.mysite.sbb.question.Question;
+import com.mysite.sbb.user.SiteUser;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -31,4 +32,7 @@ public class Answer {
     @ManyToOne //Q 하나에 A 여러개 가능
     @ToString.Exclude
     private Question question;
+
+    @ManyToOne
+    private SiteUser author;
 }

@@ -5,13 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.mysite.sbb.answer.Answer;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import com.mysite.sbb.user.SiteUser;
+import jakarta.persistence.*;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -46,4 +41,7 @@ public class Question {
         a.setQuestion(this);
         answerList.add(a);
     }
+
+    @ManyToOne
+    private SiteUser author;
 }

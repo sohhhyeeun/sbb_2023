@@ -49,5 +49,5 @@ public class Question {
     private LocalDateTime modifyDate;
 
     @ManyToMany
-    Set<SiteUser> voter;
+    Set<SiteUser> voter; //중복 투표를 가능하도록 변경하려면, Set -> List
 }
